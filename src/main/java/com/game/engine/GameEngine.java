@@ -4,9 +4,8 @@ import java.util.List;
 
 /**
  * @author Krystian Życiński
- * 
+ * <p>
  * GameEngine class contains logic of game.
- *
  */
 public class GameEngine {
     private List<Box> gameBoxList;
@@ -16,7 +15,7 @@ public class GameEngine {
     private boolean gameOver;
     private boolean gameOverOver;            //there is no better name for this variable
     private boolean finished;
-    
+
     public GameEngine() {
         this.gameBoxList = BoxProvider.getGameBoxList(this);
         this.gameOverBoxList = BoxProvider.getGameOverBoxList(this);
@@ -32,15 +31,15 @@ public class GameEngine {
      * @return list of boxes to show to player
      */
     public List<Box> action(Box box) {
-        if(finished) {
+        if (finished) {
             return null;
         }
-        if(box.isTaken()) {
+        if (box.isTaken()) {
             throw new IllegalStateException("Selected box was already used");
         }
         box.action();
         box.setTaken();
-        if(!gameOver) {
+        if (!gameOver) {
             return gameBoxList;
         } else {
             return getGameOverList();
@@ -54,7 +53,7 @@ public class GameEngine {
             gameOverOver = false;
             return gameBoxList;
         }
-        if(!gameOverOver) {
+        if (!gameOverOver) {
             gameOverOver = true;
             return gameOverBoxList;
         } else {
@@ -66,31 +65,30 @@ public class GameEngine {
     public void addReward(int reward) {
         this.reward += reward;
     }
-    
+
     public void addSecondChance() {
         this.secondChance = true;
     }
-    
+
     public void gameOverAction() {
-        if(secondChance) {
+        if (secondChance) {
             this.secondChance = false;
         } else {
             this.gameOver = true;
         }
     }
-    
+
     public void extraGame() {
         gameBoxList.forEach(Box::reset);
         gameOver = false;
         gameOverOver = false;
     }
-    
+
     public int getReward() {
         return this.reward;
     }
-    
+
     public List<Box> getGameBoxList() {
-        
         return this.gameBoxList;
     }
 }

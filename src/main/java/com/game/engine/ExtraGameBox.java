@@ -3,12 +3,13 @@ package com.game.engine;
 /**
  * @author Krystian Życiński
  */
-public class ExtraGameBox extends Box{
+public class ExtraGameBox extends Box {
 
-    public ExtraGameBox(){
+    public ExtraGameBox() {
         super();
     }
-    public ExtraGameBox(GameEngine game){
+
+    public ExtraGameBox(GameEngine game) {
         super(game);
     }
 

@@ -5,10 +5,11 @@ package com.game.engine;
  */
 public class SecondChanceBox extends Box {
 
-    public SecondChanceBox(){
+    public SecondChanceBox() {
         super();
     }
-    public SecondChanceBox(GameEngine game){
+
+    public SecondChanceBox(GameEngine game) {
         super(game);
     }
 

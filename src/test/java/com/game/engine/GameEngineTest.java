@@ -13,6 +13,7 @@ public class GameEngineTest {
     private MoneyBox moneyBox1, moneyBox2, moneyBox3, moneyBox4;
     private GameOverBox gameOverBox1, gameOverBox2;
     private SecondChanceBox secondChanceBox1, secondChanceBox2;
+    private ExtraGameBox extraGameBox;
 
     @Before
     public void init() {
@@ -25,6 +26,7 @@ public class GameEngineTest {
         gameOverBox2 = new GameOverBox(gameEngine);
         secondChanceBox1 = new SecondChanceBox(gameEngine);
         secondChanceBox2 = new SecondChanceBox(gameEngine);
+        extraGameBox = new ExtraGameBox(gameEngine);
     }
 
     @Test
@@ -89,14 +91,13 @@ public class GameEngineTest {
 
     @Test
     public void testActionWithGameOverThenTwoSecondChances() {
-        gameEngine.action(gameOverBox1);
-        gameEngine.action(secondChanceBox1);
         gameEngine.action(moneyBox1);
+        gameEngine.action(gameOverBox1);
+        gameEngine.action(extraGameBox);
         gameEngine.action(moneyBox2);
-        gameEngine.action(secondChanceBox2);
-        gameEngine.action(gameOverBox2);
         gameEngine.action(moneyBox3);
         gameEngine.action(moneyBox4);
+        gameEngine.action(gameOverBox2);
         Assert.assertEquals(80, gameEngine.getReward());
     }
 
