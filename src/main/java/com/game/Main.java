@@ -8,11 +8,6 @@ import com.game.engine.MoneyBox;
 import com.game.engine.SecondChanceBox;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 /**
  * @author Krystian Życiński
@@ -31,44 +26,18 @@ public class Main {
     private static final List<Box> GAME_OVER_OVER_BOX_LIST = BoxProvider.getGameOverOverBoxList();
     
     public static void main(String[] args) {
-        System.out.println("Result of 10 000 000 simulations: " + simulateParallel());
+        System.out.println("Result of 10 000 000 simulations: " + simulate());
         System.out.println("Result of calculations: " + calculateExpectedReward());
     }
     
     private static double simulate() {
-        long time = System.nanoTime();
         long reward = 0;
         for (int i = 0; i < SIMULATIONS; i++) {
             reward += GameSimulator.simulateGame();
         }
-        System.out.println((System.nanoTime() - time)/1000000000.0);
-        return Math.round(reward / SIMULATIONS);
+        return Math.round((double) reward / SIMULATIONS);
     }
-    
-    private static double simulateParallel() {
-        long time = System.nanoTime();
-        long reward = 0;
 
-        ExecutorService executor = Executors.newFixedThreadPool(10);
-        List<Future<Double>> list = new ArrayList<>();
-        Callable<Double> callable = new GameSimulator();
-        
-        for (int i = 0; i < SIMULATIONS; i++) {
-            Future<Double> future = executor.submit(callable);
-            list.add(future);
-        }
-        for(Future<Double> fut : list) {
-            try {
-                reward += fut.get();
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
-            }
-        }
-        executor.shutdown();
-        System.out.println((System.nanoTime() - time)/1000000000.0);
-
-        return (double) reward / SIMULATIONS;
-    }
     private static double calculateExpectedReward() {
         double result = 0;
         result += calculateMainGameExpectedReward();              //reward of main game
